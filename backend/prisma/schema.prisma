@@ -1,0 +1,98 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model User {
+  id           Int     @id @default(autoincrement())
+  email        String  @unique
+  password     String
+  name         String
+  boards       Board[] @relation("BoardOwner")
+  tasks        Task[]  @relation("AssignedTasks") // ✅ FIXED
+  refreshToken String?
+
+  // Relations for team requests
+  sentRequests     TeamRequest[] @relation("SentRequests")
+  receivedRequests TeamRequest[] @relation("ReceivedRequests")
+
+  // Relations for team membership
+  teamMemberships TeamMember[]
+}
+
+model Board {
+  id        Int      @id @default(autoincrement())
+  title     String
+  ownerId   Int
+  owner     User     @relation("BoardOwner", fields: [ownerId], references: [id])
+  lists     List[]
+  tasks     Task[]
+  createdAt DateTime @default(now())
+
+  teamId Int?
+  team   Team? @relation("TeamBoards", fields: [teamId], references: [id])
+
+  @@unique([title, ownerId])
+}
+
+model List {
+  id      Int    @id @default(autoincrement())
+  title   String
+  order   Int
+  boardId Int
+  board   Board  @relation(fields: [boardId], references: [id])
+  tasks   Task[]
+}
+
+model Task {
+  id           Int      @id @default(autoincrement())
+  title        String
+  description  String?
+  order        Int
+  boardId      Int
+  listId       Int? // nullable → in a member bucket or unassigned
+  assignedToId Int? // nullable → unassigned or in bucket
+  finalized    Boolean  @default(false)
+  board        Board    @relation(fields: [boardId], references: [id])
+  list         List?    @relation(fields: [listId], references: [id])
+  assignedTo   User?    @relation("AssignedTasks", fields: [assignedToId], references: [id])
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Team {
+  id        Int          @id @default(autoincrement())
+  name      String       @unique
+  members   TeamMember[]
+  boards    Board[]      @relation("TeamBoards")
+  createdAt DateTime     @default(now())
+
+  teamRequests TeamRequest[]
+}
+
+model TeamMember {
+  id     Int     @id @default(autoincrement())
+  team   Team    @relation(fields: [teamId], references: [id])
+  teamId Int
+  user   User    @relation(fields: [userId], references: [id])
+  userId Int
+  role   String? // optional: leader/member
+}
+
+model TeamRequest {
+  id         Int      @id @default(autoincrement())
+  senderId   Int
+  receiverId Int
+  status     String   @default("pending") // pending / accepted / rejected
+  teamId     Int? // filled after acceptance
+  createdAt  DateTime @default(now())
+
+  sender   User  @relation("SentRequests", fields: [senderId], references: [id])
+  receiver User  @relation("ReceivedRequests", fields: [receiverId], references: [id])
+  team     Team? @relation(fields: [teamId], references: [id])
+}
