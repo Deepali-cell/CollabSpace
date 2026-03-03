@@ -106,11 +106,11 @@ export const useBoard = (boardId) => {
     } finally {
       setLoading(false);
     }
-  }, [boardId, backend_url, accessToken]);
+  }, [boardId, backend_url, accessToken, user]);
 
   // --- 4. Sockets ---
   useEffect(() => {
-    if (!boardId) return;
+    if (!boardId || !accessToken || !user) return;
     fetchData();
 
     socket.emit("join-board", boardId);

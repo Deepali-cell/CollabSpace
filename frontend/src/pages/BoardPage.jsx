@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { DragDropContext } from "@hello-pangea/dnd";
 import { useBoard } from "@/hooks/useBoard";
 import AddTaskModal from "../components/AddTaskModal";
@@ -7,11 +7,14 @@ import BoardHeader from "../components/BoardComponents/BoardHeader";
 import BacklogSection from "../components/BoardComponents/BacklogSection";
 import FinalizedSection from "../components/BoardComponents/FinalizedSection";
 import MembersSection from "../components/BoardComponents/MembersSection";
-import { useParams } from "react-router-dom";
+import { Navigate, useParams } from "react-router-dom";
 import ListsSection from "@/components/BoardComponents/ListsSection";
 import Loader from "@/components/Loader";
+import { StateContext } from "@/context/stateContext";
 
 const BoardPage = () => {
+  const { user, accessToken } = useContext(StateContext);
+
   const { boardId } = useParams();
   const {
     board,
@@ -28,6 +31,10 @@ const BoardPage = () => {
 
   const [isAddTaskOpen, setIsAddTaskOpen] = useState(false);
   const [isAddListOpen, setIsAddListOpen] = useState(false);
+
+  if (!user || !accessToken) {
+    return <Navigate to="/authenticate" replace />;
+  }
 
   if (loading) return <Loader title={"fetching board details..."} />;
 

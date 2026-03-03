@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useContext, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import {
   LayoutDashboard,
@@ -34,8 +34,8 @@ const Sidebar = () => {
   const location = useLocation();
   const [open, setOpen] = useState(false);
 
+  const navigate = useNavigate();
   if (!accessToken) return null;
-
   const logout = async () => {
     try {
       const { data } = await axios.delete(`${backend_url}/api/v1/user/logout`, {
@@ -44,7 +44,7 @@ const Sidebar = () => {
       });
 
       if (data.success) {
-        toast.success(data.message || "Logged out");
+        // Clear all state
         setUser(null);
         setAccessToken(null);
         setuserBoards([]);
@@ -52,6 +52,10 @@ const Sidebar = () => {
         setBoard(null);
         setTeams([]);
         setRequests([]);
+
+        // Navigate to home or authenticate
+        navigate("/", { replace: true }); // or "/authenticate"
+        toast.success(data.message || "Logged out");
       }
     } catch (error) {
       console.log(error);

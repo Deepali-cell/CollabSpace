@@ -2,17 +2,10 @@ import AllRequests from "@/components/AllRequests";
 import Loader from "@/components/Loader";
 import { StateContext } from "@/context/stateContext";
 import React, { useContext, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 
 const AllRequestPage = () => {
   const { user, userRequests, requests, accessToken, loading } =
     useContext(StateContext);
-
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (!user) navigate("/authenticate");
-  }, [user]);
 
   useEffect(() => {
     if (user && accessToken) {
@@ -21,6 +14,7 @@ const AllRequestPage = () => {
   }, [user, accessToken]);
 
   if (loading) return <Loader title={"fetching your requests..."} />;
+
   if (requests && requests.length === 0) {
     return (
       <div className="flex flex-col justify-center items-center min-h-screen bg-gray-50">
