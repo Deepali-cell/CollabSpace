@@ -62,8 +62,8 @@ const login = async (req, res) => {
     // sameSite: "none" and secure: true. in production
     res.cookie("refreshtoken", refreshToken, {
       httpOnly: true,
-      secure: false,
-      sameSite: "lax",
+      secure: true,
+      sameSite: "none",
       path: "/",
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
