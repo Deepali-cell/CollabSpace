@@ -1,11 +1,11 @@
-import { stateContext } from "@/context/stateContextProvider";
 import React, { useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 import roller from "../assets/roller2.png";
+import { StateContext } from "@/context/stateContext";
 
 const HomePage = () => {
   const { user, dashboard, fetchDashboard, accessToken } =
-    useContext(stateContext);
+    useContext(StateContext);
 
   useEffect(() => {
     if (accessToken) fetchDashboard();
