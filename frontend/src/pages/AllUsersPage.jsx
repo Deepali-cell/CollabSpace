@@ -1,11 +1,11 @@
 import React, { useContext, useEffect } from "react";
-import { stateContext } from "@/context/stateContext";
 import { useNavigate } from "react-router-dom";
 import Loader from "@/components/Loader";
 import AllUsers from "@/components/AllUsers";
+import { StateContext } from "@/context/stateContext";
 
 const AllUsersPage = () => {
-  const { user, allUsers, fetchUsers, loading } = useContext(stateContext);
+  const { user, allUsers, fetchUsers, loading } = useContext(StateContext);
   const navigate = useNavigate();
 
   useEffect(() => {

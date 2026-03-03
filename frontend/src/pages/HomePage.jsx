@@ -1,4 +1,4 @@
-import { stateContext } from "@/context/stateContext";
+import { stateContext } from "@/context/stateContextProvider";
 import React, { useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 import roller from "../assets/roller2.png";

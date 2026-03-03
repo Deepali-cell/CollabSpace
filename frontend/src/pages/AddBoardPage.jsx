@@ -1,10 +1,10 @@
 import BoardForm from "@/components/BoardForm";
-import { stateContext } from "@/context/stateContext";
+import { StateContext } from "@/context/stateContext";
 import React, { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 const AddBoardPage = () => {
-  const { user } = useContext(stateContext);
+  const { user } = useContext(StateContext);
   const navigate = useNavigate();
 
   useEffect(() => {

@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState, useCallback } from "react";
 import axios from "axios";
-import { stateContext } from "@/context/stateContext";
+import { stateContext } from "@/context/stateContextProvider";
 import socket from "@/lib/Socket";
 import { toast } from "sonner";
 

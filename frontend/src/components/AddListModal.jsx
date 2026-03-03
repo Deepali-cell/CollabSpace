@@ -3,11 +3,11 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import axios from "axios";
-import { stateContext } from "@/context/stateContext";
 import { toast } from "sonner";
+import { StateContext } from "@/context/stateContext";
 
 const AddListModal = ({ open, onClose, boardId }) => {
-  const { backend_url, accessToken } = useContext(stateContext);
+  const { backend_url, accessToken } = useContext(StateContext);
   const [title, setTitle] = useState("");
   const [loading, setLoading] = useState(false);
 

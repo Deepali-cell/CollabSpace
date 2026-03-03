@@ -1,10 +1,11 @@
-import { stateContext } from "@/context/StateContext";
+
+import { StateContext } from "@/context/stateContext";
 import axios from "axios";
 import React, { useContext, useState } from "react";
 import { toast } from "sonner";
 
 const RegisterPage = ({ setShow }) => {
-  const { backend_url } = useContext(stateContext);
+  const { backend_url } = useContext(StateContext);
   const [loading, setLoading] = useState(false);
   const [registerData, setregisterData] = useState({
     name: "",

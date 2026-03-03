@@ -1,9 +1,9 @@
-import { stateContext } from "@/context/stateContext";
+import { StateContext } from "@/context/stateContext";
 import axios from "axios";
 import React, { useContext, useState } from "react";
 
 const AllTeams = ({ teams, fetchAllTeams }) => {
-  const { backend_url, accessToken, userBoards } = useContext(stateContext);
+  const { backend_url, accessToken, userBoards } = useContext(StateContext);
   const [selectedBoard, setSelectedBoard] = useState("");
   const [assigningTeamId, setAssigningTeamId] = useState(null);
 

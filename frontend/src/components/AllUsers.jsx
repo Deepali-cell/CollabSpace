@@ -1,10 +1,10 @@
-import { stateContext } from "@/context/stateContext";
+import { StateContext } from "@/context/stateContext";
 import axios from "axios";
 import React, { useContext, useState } from "react";
 import { toast } from "sonner";
 
 const AllUsers = ({ allUsers, loadUsers }) => {
-  const { backend_url, accessToken } = useContext(stateContext);
+  const { backend_url, accessToken } = useContext(StateContext);
   const [actionLoading, setActionLoading] = useState({});
   const sendTeamRequest = async (receiverId) => {
     setActionLoading((prev) => ({ ...prev, [receiverId]: true }));

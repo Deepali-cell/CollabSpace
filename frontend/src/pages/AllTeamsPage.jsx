@@ -1,12 +1,12 @@
 import AllTeams from "@/components/AllTeams";
 import Loader from "@/components/Loader";
-import { stateContext } from "@/context/stateContext";
+import { StateContext } from "@/context/stateContext";
 import React, { useContext, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const AllTeamsPage = () => {
   const { accessToken, fetchAllTeams, teams, loading, user } =
-    useContext(stateContext);
+    useContext(StateContext);
 
   const navigate = useNavigate();
 

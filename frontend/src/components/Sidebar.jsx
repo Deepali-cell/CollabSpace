@@ -1,4 +1,3 @@
-import { stateContext } from "@/context/stateContext";
 import axios from "axios";
 import React, { useContext } from "react";
 import { Link, useLocation } from "react-router-dom";
@@ -6,6 +5,7 @@ import { toast } from "sonner";
 import { LayoutDashboard, Plus, Users, LogOut, LogIn } from "lucide-react";
 import { VscGitPullRequestNewChanges } from "react-icons/vsc";
 import { PiUsersFour } from "react-icons/pi";
+import { StateContext } from "@/context/stateContext";
 
 const Sidebar = () => {
   const {
@@ -21,7 +21,7 @@ const Sidebar = () => {
     setBoard,
     setRequests,
     setTeams,
-  } = useContext(stateContext);
+  } = useContext(StateContext);
   const location = useLocation();
   if (!accessToken) return;
   const logout = async () => {

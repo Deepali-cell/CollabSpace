@@ -1,4 +1,4 @@
-import { stateContext } from "@/context/stateContext";
+import { StateContext } from "@/context/stateContext";
 import axios from "axios";
 import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -8,7 +8,7 @@ const BoardForm = () => {
   const [title, setTitle] = useState("");
   const [loading, setLoading] = useState(false);
   const { accessToken, backend_url, fetchUserBoards } =
-    useContext(stateContext);
+    useContext(StateContext);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {

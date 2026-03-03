@@ -4,11 +4,11 @@ import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import axios from "axios";
-import { stateContext } from "@/context/stateContext";
 import { toast } from "sonner";
+import { StateContext } from "@/context/stateContext";
 
 const AddTaskModal = ({ open, onClose, boardId }) => {
-  const { accessToken, backend_url } = useContext(stateContext);
+  const { accessToken, backend_url } = useContext(StateContext);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [listId, setListId] = useState(null);

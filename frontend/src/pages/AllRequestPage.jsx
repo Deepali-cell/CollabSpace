@@ -1,12 +1,12 @@
 import AllRequests from "@/components/AllRequests";
 import Loader from "@/components/Loader";
-import { stateContext } from "@/context/stateContext";
+import { StateContext } from "@/context/stateContext";
 import React, { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 const AllRequestPage = () => {
   const { user, userRequests, requests, accessToken, loading } =
-    useContext(stateContext);
+    useContext(StateContext);
 
   const navigate = useNavigate();
 
