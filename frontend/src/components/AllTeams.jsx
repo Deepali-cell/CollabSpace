@@ -1,6 +1,7 @@
 import { StateContext } from "@/context/stateContext";
 import axios from "axios";
 import React, { useContext, useState } from "react";
+import { Link } from "react-router-dom";
 
 const AllTeams = ({ teams, fetchAllTeams }) => {
   const { backend_url, accessToken, userBoards } = useContext(StateContext);
@@ -39,7 +40,7 @@ const AllTeams = ({ teams, fetchAllTeams }) => {
         </div>
       ) : (
         <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-          {teams.map((team) => (
+          {teams?.map((team) => (
             <div
               key={team.teamId}
               className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm hover:shadow-lg transition duration-300"
@@ -102,7 +103,7 @@ const AllTeams = ({ teams, fetchAllTeams }) => {
                 <h3 className="font-medium mb-3">Members</h3>
 
                 <div className="flex flex-wrap gap-2">
-                  {team.members.map((member) => (
+                  {team.members?.map((member) => (
                     <div
                       key={member.id}
                       className="flex items-center gap-2 px-3 py-1.5 border border-gray-200 rounded-full text-sm bg-gray-50"
@@ -124,8 +125,8 @@ const AllTeams = ({ teams, fetchAllTeams }) => {
                   <p className="text-sm text-gray-500">No boards assigned</p>
                 ) : (
                   <ul className="space-y-2">
-                    {team.boards.map((board) => (
-                      <Link key={board.id} to={`/board/${board.id}`}>
+                    {team.boards?.map((board) => (
+                      <Link key={board.id} to={`/boardview/${board.id}`}>
                         <li className="border border-gray-200 rounded-xl px-3 py-2 hover:bg-black hover:text-white transition cursor-pointer">
                           {board.title}
                         </li>

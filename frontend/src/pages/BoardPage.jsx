@@ -29,7 +29,7 @@ const BoardPage = () => {
   const [isAddTaskOpen, setIsAddTaskOpen] = useState(false);
   const [isAddListOpen, setIsAddListOpen] = useState(false);
 
-  if (loading) return <Loader title={"fetching board details..."}/>;
+  if (loading) return <Loader title={"fetching board details..."} />;
 
   return (
     <>

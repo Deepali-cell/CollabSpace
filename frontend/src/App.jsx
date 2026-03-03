@@ -20,7 +20,6 @@ const App = () => {
           <Route path="/allusers" element={<AllUsersPage />} />
           <Route path="/allrequest" element={<AllRequestPage />} />
           <Route path="/allteams" element={<AllTeamsPage />} />
-          <Route path="/board/:boardId" element={<BoardPage />} />
           <Route path="/boardview/:boardId" element={<BoardPage />} />
         </Route>
       </Routes>

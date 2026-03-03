@@ -48,7 +48,7 @@ const BoardForm = () => {
       }}
     >
       <h2
-        className="text-2xl font-bold mb-6 text-white"
+        className="text-2xl font-bold mb-6 text-black"
         style={{ textShadow: "0 2px 6px rgba(0,0,0,0.4)" }}
       >
         Create New Board
@@ -59,7 +59,7 @@ const BoardForm = () => {
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           placeholder="Enter board title"
-          className="px-4 py-3 w-full rounded-xl bg-white/20 placeholder-white text-white
+          className="px-4 py-3 w-full rounded-xl bg-white/20 placeholder-black text-black
           focus:outline-none focus:ring-2 focus:ring-[#196bbd] backdrop-blur-sm
           transition-all duration-300"
         />

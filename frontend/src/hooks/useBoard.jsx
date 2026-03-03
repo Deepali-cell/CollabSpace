@@ -2,9 +2,10 @@ import { useContext, useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import socket from "@/lib/Socket";
 import { toast } from "sonner";
+import { StateContext } from "@/context/stateContext";
 
 export const useBoard = (boardId) => {
-  const { backend_url, accessToken, user } = useContext(stateContext);
+  const { backend_url, accessToken, user } = useContext(StateContext);
 
   // --- 1. All States ---
   const [board, setBoard] = useState(null);
@@ -19,7 +20,7 @@ export const useBoard = (boardId) => {
   const isLeader = myRole === "leader";
   const currentUserId = user?.id;
 
-  // --- 2. Centralized State Manager (The "Brain") ---
+  // Centralized State Manager (The "Brain")
   // Ye function task ko purani jagah se nikal kar nayi sahi jagah daal deti hai
   const syncTaskToState = useCallback((task) => {
     if (!task) return;
@@ -62,7 +63,7 @@ export const useBoard = (boardId) => {
     }
   }, []);
 
-  // --- 3. Data Fetching ---
+  //  Data Fetching
   const fetchData = useCallback(async () => {
     if (!boardId || !accessToken) return;
     try {
@@ -71,31 +72,33 @@ export const useBoard = (boardId) => {
         { headers: { Authorization: `Bearer ${accessToken}` } },
       );
 
-      const b = data.board;
+      const b = data.board || {};
+      const tasks = b.tasks || [];
+      const listsData = b.lists || [];
+      const teamMembers = b.team?.members || [];
+
       setBoard(b);
       setMyRole(data.myRole);
-
-      // Initializing states using the same logic
-      setFinalizedTasks(b.tasks.filter((t) => t.finalized));
+      setFinalizedTasks(tasks.filter((t) => t.finalized));
       setUnassignedTasks(
-        b.tasks.filter((t) => !t.assignedToId && !t.listId && !t.finalized),
+        tasks.filter((t) => !t.assignedToId && !t.listId && !t.finalized),
       );
       setLists(
-        b.lists.map((l) => ({
+        listsData.map((l) => ({
           ...l,
-          tasks: l.tasks.filter((t) => !t.finalized),
+          tasks: (l.tasks || []).filter((t) => !t.finalized),
         })),
       );
       setMembers(
-        b.team?.members.map((m) => ({
+        teamMembers.map((m) => ({
           id: m.id,
-          userId: m.user.id,
-          name: m.user.name,
+          userId: m.user?.id,
+          name: m.user?.name || "Unknown",
           role: m.role || "member",
-          tasks: b.tasks.filter(
-            (t) => t.assignedToId === m.user.id && !t.listId && !t.finalized,
+          tasks: tasks.filter(
+            (t) => t.assignedToId === m.user?.id && !t.listId && !t.finalized,
           ),
-        })) || [],
+        })),
       );
     } catch (err) {
       console.error("Fetch error", err);
@@ -180,7 +183,7 @@ export const useBoard = (boardId) => {
 
     syncTaskToState(updatedTask);
 
-    // Step 2: API Call
+    // API Call
     try {
       setActionLoading(true);
       if (destIsMember) {
@@ -207,7 +210,7 @@ export const useBoard = (boardId) => {
       }
       toast.success("Board updated");
     } catch (err) {
-      // Step 3: Rollback on failure
+      // Rollback on failure
       setUnassignedTasks(backup.unassignedTasks);
       setLists(backup.lists);
       setMembers(backup.members);
@@ -240,7 +243,7 @@ export const useBoard = (boardId) => {
     } catch (err) {
       console.log(err);
       toast.error("Finalize failed");
-      fetchData(); // Reset state on error
+      fetchData();
     } finally {
       setActionLoading(false);
     }

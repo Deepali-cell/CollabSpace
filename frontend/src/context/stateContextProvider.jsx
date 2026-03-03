@@ -41,6 +41,8 @@ const StateContextProvider = ({ children }) => {
     }
   };
   const fetchUsers = async () => {
+    if (!user) return;
+    setLoading(true);
     try {
       const { data } = await axios.get(`${backend_url}/api/v1/user/allusers`, {
         headers: {
@@ -53,6 +55,8 @@ const StateContextProvider = ({ children }) => {
       }
     } catch (error) {
       console.log("Failed to load users :", error);
+    } finally {
+      setLoading(false);
     }
   };
   const userRequests = async () => {
@@ -77,6 +81,8 @@ const StateContextProvider = ({ children }) => {
     }
   };
   const fetchAllTeams = async () => {
+    if (!user) return;
+    setLoading(true);
     try {
       const { data } = await axios.get(
         `${backend_url}/api/v1/team/alluserteam`,
